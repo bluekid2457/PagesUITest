@@ -1,0 +1,4 @@
+# requirements.txt
+
+# You can specify the Python version if needed, for example:
+python_version>=3.6
