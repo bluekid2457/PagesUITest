@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-# Create the direct ory if it does not  exist
+# Create the directory if it does not  exist
 directory = "APIData"
 if not os.path.exists(directory):
     os.makedirs(directory)
