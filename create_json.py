@@ -8,7 +8,7 @@ if not os.path.exists(directory):
     os.makedirs(directory)
 
 # Create the JSON file with the current date
-date_str = datetime.now().strftime("%Y-%m-%d")
+date_str =  datetime.now().strftime("%Y-%m-%d")
 file_name = f"report_{date_str}.json"
 file_path = os.path.join(directory, file_name)
 
