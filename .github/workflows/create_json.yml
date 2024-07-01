@@ -1,9 +1,7 @@
 name: Create JSON on Push
 
 on:
-  push:
-    paths:
-      - 'create_json.py'  # Trigger the action only when create_json.py is pushed
+  push:  # Trigger the action on any push to any branch
 
 jobs:
   build:
@@ -25,11 +23,11 @@ jobs:
         run: python create_json.py
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add APIData/*
           git commit -m "Create JSON report"
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
