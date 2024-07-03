@@ -2,3 +2,4 @@
 
 # You can specify the Python version if needed, for example:
 # python_version>=3.6
+beautifulsoup4==4.11.2
