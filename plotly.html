@@ -1,25 +1,84 @@
-<head>
-	<!-- Load plotly.js into the DOM -->
-	<script src='https://cdn.plot.ly/plotly-2.32.0.min.js'></script>
-    hi
-</head>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <!-- <script src="https://cdn.plot.ly/plotly-latest.min.js"></script> -->
+    <script src='https://cdn.plot.ly/plotly-2.32.0.min.js'></script>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
 <body>
-    
-	<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+    <div id="APIDiv"></div>
     <script>
-        var data = [{
-      values: [19, 26, 55],
-      labels: ['Residential', 'Non-Residential', 'Utility'],
-      type: 'pie'
-    }];
-    
-    var layout = {
-      height: 400,
-      width: 500
-    };
-    
-    Plotly.newPlot('myDiv', data, layout);
-    
+        getAPIData()
+        function getAPIData(){
+            fetch("Latest/api.json").then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                processDataAndPlot_Pie(data,"APIDiv");
+            }).catch(err => {
+                console.log("error", err);
+            });
+        }
+        // Step 4: Wrap the bottom code in a function
+        function processDataAndPlot_Pie(x,div) {
+            console.log(x);
+            // Convert the data into the desired format
+            var values = [];
+            var labels = [];
+            for (var key in x) {
+                if (x.hasOwnProperty(key)) {
+                    values.push(parseInt(x[key]));  // Convert string to integer
+                    labels.push(key);
+                }
+            }
+            var data = [
+                {
+                    values: values,
+                    labels: labels,
+                    type: 'pie'
+                }
+            ];
+            var layout = {
+                height: 400,
+                width: 500
+            };
+            Plotly.newPlot(div, data, layout);
+        }
     </script>
+
+    <div id="UI_test_Div"></div>
+    <script>
+        getUI_test_Data()
+        function getUI_test_Data(){
+            fetch("Latest/ui.json").then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                processDataAndPlot_Pie(data["test"],"UI_test_Div");
+            }).catch(err => {
+                console.log("error", err);
+            });
+        }
+    </script>
+    <div id="UI_event_Div"></div>
+    <script>
+        getUI_test_Data()
+        function getUI_test_Data(){
+            fetch("Latest/ui.json").then(response => {
+                return response.json();
+            }).then(data => {
+                console.log(data);
+                processDataAndPlot_Pie(data["event"],"UI_event_Div");
+            }).catch(err => {
+                console.log("error", err);
+            });
+        }
+    </script>
+    
 </body>
+</html>
