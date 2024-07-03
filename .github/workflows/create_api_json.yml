@@ -4,8 +4,8 @@ on:
   push:  # Trigger the action on any push to any branch
     branches:
       - main
-      paths:
-        - 'latest_reports/api_report.html'
+    paths:
+      - 'latest_reports/api_report.html'
   workflow_dispatch:
 
 permissions:
