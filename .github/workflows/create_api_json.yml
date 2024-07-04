@@ -32,7 +32,8 @@ jobs:
         run: python Scraping/api_scraper.py
 
       - name: Commit and push changess
-        
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT2 }}
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
@@ -40,5 +41,4 @@ jobs:
           git add Latest/api.json
           git commit -m "Add report"
           git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT2 }}
+        
