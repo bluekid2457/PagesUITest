@@ -39,6 +39,6 @@ jobs:
           git add APIData/*.json
           git add Latest/api.json
           git commit -m "Add report"
-          git push
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.PAT2 }}
