@@ -45,3 +45,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify files
+        run: |
+          echo "Files in Latest directory:"
+          ls -la Latest

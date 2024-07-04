@@ -41,4 +41,8 @@ jobs:
           git add Latest/api.json
           git commit -m "Add report"
           git push origin main
+      - name: Verify commit
+        run: |
+          echo "Files committed:"
+          git show --name-only --oneline HEAD
         
