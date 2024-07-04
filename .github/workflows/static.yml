@@ -3,6 +3,10 @@ name: Deploy static content to Pages
 
 on:
   # Runs on pushes targeting the default branch
+  workflow_run:
+    workflows: ['Create JSON on Push']
+    types:
+      - completed
   push:
     branches: 
       - "main"
