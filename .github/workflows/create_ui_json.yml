@@ -1,0 +1,51 @@
+name: Process Client Files
+
+on:
+  push:
+    branches:
+      - '**'  # Trigger on push to any branch
+    paths:
+      - 'client_*.json'  # Match files named client_x.json
+
+jobs:
+  process-client-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Extract file name
+        id: extract_filename
+        run: |
+          FILE=$(git diff --name-only HEAD~1 HEAD | grep 'client_[0-9]\+.json')
+          echo "FILE_NAME=${FILE}" >> $GITHUB_ENV
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run Python script
+        env:
+          FILE_NAME: ${{ env.FILE_NAME }}
+        run: |
+          echo "Processing file: $FILE_NAME"
+          python Scraping/ui_scraping.py "$FILE_NAME"
+
+       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT2 }}
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add Latest/ui.json
+          git commit -m "Add ui report"
+          git push origin main 
+      - name: Verify commit
+        run: |
+          echo "Files committed:"
+          git show --name-only --oneline HEAD

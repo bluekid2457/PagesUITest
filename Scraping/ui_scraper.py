@@ -1,11 +1,20 @@
 import json
 import os
-import glob
+import sys
 from datetime import datetime
 # import lxml
 from bs4 import BeautifulSoup
 # Create the directory if it does not  exist
 
+def process_file(file_name):
+    print(f"Processing file: {file_name}")
+    # Add your file processing logic here
+def merge_dictionaries(dict1, dict2):
+    merged_dict = {}
+    all_keys = set(dict1.keys()).union(dict2.keys())  # Get all unique keys
+    for key in all_keys:
+        merged_dict[key] = int(dict1.get(key, 0)) + int(dict2.get(key, 0))
+    return merged_dict
 
 def uploadData(directory,file_name,data):
 
@@ -18,45 +27,53 @@ def uploadData(directory,file_name,data):
         json.dump(data, json_file)
 
     print(f"Created {file_path}") 
+def read_json(file_name):
+    """Read JSON data from a file."""
+    with open(file_name, 'r') as file:
+        data = json.load(file)
+    return data
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python process_client_file.py <file_name>")
+        sys.exit(1)
+        file_name = "ui_reports/AdminSettings_1.html"
+    else:
+        file_name = "ui_reports/"+sys.argv[1]
+    print(file_name)
+    iteration_number = file_name.split('_')[-1].split('.')[0]
+    iteration_number = "2"
+    p = open(file_name , 'r')
+    contents = p.read()
+    # parse html content 
+    soup = BeautifulSoup(contents, 'html.parser') 
+    tags = {tag.name for tag in soup.find_all()} 
+    text = []
+    for tag in tags: 
+        for i in soup.find_all( tag ): # find all element of tag 
+            if i.has_attr( "class" ): # if tag has attribute of class 
+                if len( i['class'] ) != 0: 
+                    class_name = i['class'][0]
+                    if class_name == "card-footer":
+                        text.append(i.text)
+    
+    test_data = text[0].strip().split()
+    test_passed = test_data[0]
+    test_failed = test_data[3]
+    test_skipped = test_data[-4]
+    test_other = test_data[-2]
+    print( test_passed ,test_failed ,test_skipped,test_other)
+    event_data = text[1].strip().split()
+    event_passed = event_data[0]
+    event_failed = event_data[3]
+    event_other = event_data[6]
+    print(event_passed,event_failed,event_other)
 
-
-p = open('latest_reports/ui_report.html' , 'r')
-contents = p.read()
-# parse html content 
-soup = BeautifulSoup(contents, 'html.parser') 
-  
-# get all tags 
-tags = {tag.name for tag in soup.find_all()} 
-
-data = {}
-text = ""
-# iterate all tags 
-for tag in tags: 
-    for i in soup.find_all( tag ): # find all element of tag 
-        if i.has_attr( "class" ): # if tag has attribute of class 
-            if len( i['class'] ) != 0: 
-                class_name = i['class'][0]
-                if class_name == "card-footer":
-                    text += i.text
-                
-        
-
-split_text = text.strip().split()
-print(split_text)
-test_passed = split_text[0]
-test_failed = split_text[3]
-test_skipped = split_text[6]
-test_others = split_text[8]
-event_passed = split_text[10]
-event_failed = split_text[13]
-event_others = split_text[16]
-print (test_passed ,test_failed, test_skipped,test_others,event_passed,event_failed,event_others)
-data = {"test_passed":test_passed ,"testfailed":test_failed, "test_skipped":test_skipped,
-        "test_others":test_others,"event_passed":event_passed,"event_failed":event_failed,
-        "event_other":event_others}
-
-directory = "UIData" 
-date_str =  datetime.now().strftime("%Y-%m-%d")
-file_name = f"report_{date_str}.json"
-uploadData(directory,file_name,data)
-uploadData("Latest","ui.json",data)
+    ui_json = read_json("Latest/ui.json")
+    temp_data = {}
+    for i in ["test_passed", "test_failed", "test_skipped", "test_other"]:
+        temp_data[i] = locals()[i]
+    try:
+        ui_json[str(iteration_number)] = merge_dictionaries(ui_json[str(iteration_number)],temp_data)
+    except:
+        ui_json[str(iteration_number)] = merge_dictionaries(ui_json["0"],temp_data)
+    uploadData("Latest","ui.json",ui_json)  

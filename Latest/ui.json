@@ -1,1 +1,17 @@
-{"test":{"test_passed": "14", "testfailed": "40", "test_skipped": "0", "test_others": "0"}, "event":{ "event_passed": "521", "event_failed": "40", "event_other": "0"}}
+{
+    "0": {
+        "test_other": 0,
+        "test_skipped": 0,
+        "test_passed": 0,
+        "test_failed": 0,
+        "event_passed": 0,
+        "event_failed": 0,
+        "event_other": 0
+    },
+    "1": {
+        "test_other": 4,
+        "test_skipped": 3,
+        "test_passed": 43,
+        "test_failed": 122
+    }
+}

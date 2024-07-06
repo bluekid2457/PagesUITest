@@ -39,7 +39,7 @@ jobs:
           git config --global user.email 'github-actions@github.com'
           git add APIData/*.json
           git add Latest/api.json
-          git commit -m "Add report"
+          git commit -m "Add api report"
           git push origin main
       - name: Verify commit
         run: |
