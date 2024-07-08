@@ -19,16 +19,19 @@ jobs:
       - name: Extract file name
         id: extract_filename
         run: |
+          git fetch --depth=2  # Ensure we have enough commit history
           if [ $(git rev-list --count HEAD) -gt 1 ]; then
             FILE=$(git diff --name-only HEAD~1 HEAD | grep -E 'ui_reports/.*\.html')
+            echo "Detected file changes: $FILE"
             if [ -n "$FILE" ]; then
               FILENAME=$(basename $FILE)
               echo "FILE_NAME=${FILENAME}" >> $GITHUB_ENV
             else
+              echo "No HTML files changed in ui_reports."
               echo "FILE_NAME=" >> $GITHUB_ENV
             fi
           else
-            echo "No previous commit found or no JSON files changed in ui_reports."
+            echo "No previous commit found."
             echo "FILE_NAME=" >> $GITHUB_ENV
           fi
       - name: Set up Python
