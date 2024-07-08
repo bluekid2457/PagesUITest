@@ -20,10 +20,15 @@ jobs:
         id: extract_filename
         run: |
           if [ $(git rev-list --count HEAD) -gt 1 ]; then
-            FILE=$(git diff --name-only HEAD~1 HEAD | grep -E 'client_[0-9]+\.json')
-            echo "FILE_NAME=${FILE}" >> $GITHUB_ENV
+            FILE=$(git diff --name-only HEAD~1 HEAD | grep -E 'ui_reports/.*\.json')
+            if [ -n "$FILE" ]; then
+              FILENAME=$(basename $FILE)
+              echo "FILE_NAME=${FILENAME}" >> $GITHUB_ENV
+            else
+              echo "FILE_NAME=" >> $GITHUB_ENV
+            fi
           else
-            echo "No previous commit found or no JSON files changed."
+            echo "No previous commit found or no JSON files changed in ui_reports."
             echo "FILE_NAME=" >> $GITHUB_ENV
           fi
       - name: Set up Python
