@@ -28,7 +28,7 @@ jobs:
               echo "FILE_NAME=" >> $GITHUB_ENV
             fi
           else
-            echo "No previous commit found or no HTML files changed in ui_reports."
+            echo "No previous commit found or no JSON files changed in ui_reports."
             echo "FILE_NAME=" >> $GITHUB_ENV
           fi
       - name: Set up Python
