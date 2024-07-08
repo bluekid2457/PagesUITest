@@ -5,7 +5,7 @@ on:
     branches:
       - '**'  # Trigger on push to any branch
     paths:
-      - 'latest_report/*.html'  # Match files named client_x.json
+      - 'ui_reports/*.html'  # Match files named client_x.json
   workflow_dispatch:
 
 jobs:
