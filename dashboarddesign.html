@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script src="myScripts.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-100 p-10">
+    <div class="bg-white shadow-lg rounded-lg p-6">
+        <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+        <div class="flex">
+            <div class="flex-1 flex flex-col items-center">
+                <h2 class="text-xl font-semibold mb-2">API</h2>
+                <div id="Apex_Pie_chart" style="width: 25vw; height: 10vh;" ></div> 
+            </div>
+            <div class="flex-1 flex flex-col items-center">
+                <h2 class="text-xl font-semibold mb-2">UI</h2>
+                <div class="flex items-center space-x-4">
+                    <div  id="Apex_Pie_chart_UI" style="width: 20vw; height: 30vh;"></div>
+                    <div  id="Apex_Pie_chart_UI2" style="width: 20vw; height: 30vh;"></div>
+                    <div class="flex flex-col items-center">
+                        <select class="border border-gray-300 rounded p-1 text-lg mb-2">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                        <button id="Update_UI" class="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
