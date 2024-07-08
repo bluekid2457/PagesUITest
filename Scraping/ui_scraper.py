@@ -41,7 +41,6 @@ if __name__ == "__main__":
         file_name = "ui_reports/"+sys.argv[1]
     print(file_name)
     iteration_number = file_name.split('_')[-1].split('.')[0]
-    iteration_number = "2"
     p = open(file_name , 'r')
     contents = p.read()
     # parse html content 
