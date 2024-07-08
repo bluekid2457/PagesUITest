@@ -16,11 +16,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
+        with:
+          fetch-depth: 2  # Ensure we fetch enough commit history
+      - name: Check Git version
+        run: git --version
       - name: Extract file name
         id: extract_filename
         run: |
-          git fetch --depth=2  # Ensure we have enough commit history
+          git rev-list --count HEAD
           if [ $(git rev-list --count HEAD) -gt 1 ]; then
             FILE=$(git diff --name-only HEAD~1 HEAD | grep -E 'ui_reports/.*\.html')
             echo "Detected file changes: $FILE"
@@ -35,6 +38,9 @@ jobs:
             echo "No previous commit found."
             echo "FILE_NAME=" >> $GITHUB_ENV
           fi
+      - name: Debug output
+        run: |
+            echo "Changed file: $FILE_NAME"
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
