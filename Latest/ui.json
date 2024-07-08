@@ -12,6 +12,9 @@
         "test_other": 4,
         "test_skipped": 3,
         "test_passed": 43,
-        "test_failed": 122
+        "test_failed": 122,
+        "event_passed": 5,
+        "event_failed": 1,
+        "event_other": 15
     }
 }

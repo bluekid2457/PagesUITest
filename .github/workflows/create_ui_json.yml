@@ -5,7 +5,7 @@ on:
     branches:
       - '**'  # Trigger on push to any branch
     paths:
-      - 'client_*.json'  # Match files named client_x.json
+      - 'latest_report/*.html'  # Match files named client_x.json
 
 jobs:
   process-client-file:
@@ -34,9 +34,9 @@ jobs:
           FILE_NAME: ${{ env.FILE_NAME }}
         run: |
           echo "Processing file: $FILE_NAME"
-          python Scraping/ui_scraping.py "$FILE_NAME"
+          python Scraping/ui_scraper.py "$FILE_NAME"
 
-       - name: Commit and push changes
+      - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.PAT2 }}
         run: |
