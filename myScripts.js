@@ -63,12 +63,53 @@ async function getApiData() {
 //     }
 //   })();
 // }
+async function make_table(iteration, data_type) {
+  let table = document.createElement("table");
+  let thead = document.createElement("thead");
+  let tbody = document.createElement("tbody");
+
+  table.appendChild(thead);
+  table.appendChild(tbody);
+  // Adding the entire table to the body tag
+  let row_1 = document.createElement("tr");
+  for (let i of ["Name","Test Passed", "Test Failed", "Test Skipped", "Test Other", "Event Passed", "Event Failed", "Event Other"]){
+      let heading_1 = document.createElement("th");
+      heading_1.innerHTML = i;
+      row_1.appendChild(heading_1);
+  };
+  thead.appendChild(row_1);
+  try {
+    const response = await fetch("Latest/ui.json");
+    const data = await response.json();
+    iter_data = data[iteration];
+    console.log(iter_data);
+    for (var key in iter_data) {
+      if (iter_data.hasOwnProperty(key)) {
+        console.log(iter_data[key]);
+        let row_2 = document.createElement("tr");
+          let row_2_data_1 = document.createElement("td");
+          row_2_data_1.innerHTML = key;
+          row_2.appendChild(row_2_data_1);
+          for (let i of ["test_passed","test_failed","test_skipped","test_other","event_passed","event_failed","event_other"]) {
+              let row_2_data_2 = document.createElement("td");
+              row_2_data_2.innerHTML = iter_data[key][i];
+              row_2.appendChild(row_2_data_2);
+          }
+          tbody.appendChild(row_2);
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+  document.getElementById("body").appendChild(table);
+}
 
 async function getUIData(iteration, data_type) {
   try {
     const response = await fetch("Latest/ui.json");
     const data = await response.json();
-    iter_data = data[iteration];
+    iter_data = data[iteration]["total"];
     var values = [];
     var labels = [];
     for (var key in iter_data) {
@@ -93,12 +134,6 @@ async function getUIData(iteration, data_type) {
         }
       }
     }
-    const randomIntegers = [];
-    for (let i = 0; i < 4; i++) {
-      const randomInt = Math.floor(Math.random() * (100 - 0 + 1)) + 0;
-      randomIntegers.push(randomInt);
-    }
-    // values = randomIntegers;
     return [values, labels];
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -254,4 +289,5 @@ window.onload = function () {
   plotApexPie("1", "#Apex_Pie_chart_UI", "test");
   plotApexPie("1", "#Apex_Pie_chart_UI2", "log");
   plotApexPie("1", "#Apex_Pie_chart", "api");
+  make_table("1");
 };

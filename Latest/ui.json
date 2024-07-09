@@ -1,1 +1,49 @@
-{"0": {"test_other": 0, "test_skipped": 0, "test_passed": 0, "test_failed": 0, "event_passed": 0, "event_failed": 0, "event_other": 0}, "1": {"event_other": 15, "event_failed": 1, "test_skipped": 3, "test_passed": 57, "test_other": 4, "test_failed": 162, "event_passed": 5}, "2": {"event_other": 0, "test_other": 0, "test_skipped": 0, "test_failed": 40, "test_passed": 14, "event_failed": 0, "event_passed": 0}}
+{
+  "0": {
+    "test_other": 0,
+    "test_skipped": 0,
+    "test_passed": 0,
+    "test_failed": 0,
+    "event_passed": 0,
+    "event_failed": 0,
+    "event_other": 0
+  },
+  "1": {
+    "total": {
+      "test_other": 0,
+      "test_failed": 240,
+      "event_passed": 1042,
+      "event_other": 0,
+      "test_passed": 84,
+      "event_failed": 80,
+      "test_skipped": 0
+    },
+    "AdminSettings": {
+      "test_passed": 14,
+      "test_failed": 40,
+      "test_skipped": 0,
+      "test_other": 0,
+      "event_failed": 40,
+      "event_passed": 521,
+      "event_other": 0
+    },
+    "AdminSettings2": {
+      "test_passed": 14,
+      "test_failed": 40,
+      "test_skipped": 0,
+      "test_other": 0,
+      "event_failed": 40,
+      "event_passed": 521,
+      "event_other": 0
+    }
+  },
+  "2": {
+    "event_other": 0,
+    "test_other": 0,
+    "test_skipped": 0,
+    "test_failed": 40,
+    "test_passed": 14,
+    "event_failed": 0,
+    "event_passed": 0
+  }
+}

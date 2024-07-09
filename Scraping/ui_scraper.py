@@ -39,8 +39,11 @@ if __name__ == "__main__":
         file_name = "ui_reports/AdminSettings_1.html"
     else:
         file_name = "ui_reports/"+sys.argv[1]
+    file_type = sys.argv[1].split('_')[0]
+    print(file_type)
     print(file_name)
     iteration_number = file_name.split('_')[-1].split('.')[0]
+    print(iteration_number)
     p = open(file_name , 'r')
     contents = p.read()
     # parse html content 
@@ -56,23 +59,24 @@ if __name__ == "__main__":
                         text.append(i.text)
     
     test_data = text[0].strip().split()
-    test_passed = test_data[0]
-    test_failed = test_data[3]
-    test_skipped = test_data[-4]
-    test_other = test_data[-2]
+    test_passed = int(test_data[0])
+    test_failed = int(test_data[3])
+    test_skipped = int(test_data[-4])
+    test_other = int(test_data[-2])
     print( test_passed ,test_failed ,test_skipped,test_other)
     event_data = text[1].strip().split()
-    event_passed = event_data[0]
-    event_failed = event_data[3]
-    event_other = event_data[6]
+    event_passed = int(event_data[0])
+    event_failed = int(event_data[3])
+    event_other = int(event_data[6])
     print(event_passed,event_failed,event_other)
 
     ui_json = read_json("Latest/ui.json")
     temp_data = {}
-    for i in ["test_passed", "test_failed", "test_skipped", "test_other"]:
+    for i in ["test_passed", "test_failed", "test_skipped", "test_other","event_failed","event_passed","event_other"]:
         temp_data[i] = locals()[i]
     try:
-        ui_json[str(iteration_number)] = merge_dictionaries(ui_json[str(iteration_number)],temp_data)
+        ui_json[str(iteration_number)]["total"] = merge_dictionaries(ui_json[str(iteration_number)]["total"],temp_data)
     except:
-        ui_json[str(iteration_number)] = merge_dictionaries(ui_json["0"],temp_data)
+        ui_json[str(iteration_number)]["total"] = merge_dictionaries(ui_json["0"],temp_data)
+    ui_json[str(iteration_number)][file_type] = temp_data
     uploadData("Latest","ui.json",ui_json)  
