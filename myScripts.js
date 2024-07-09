@@ -72,7 +72,8 @@ async function make_table(iteration, data_type) {
   table.appendChild(tbody);
   // Adding the entire table to the body tag
   let row_1 = document.createElement("tr");
-  for (let i of ["Name","Test Passed", "Test Failed", "Test Skipped", "Test Other", "Event Passed", "Event Failed", "Event Other"]){
+  for (let i of ["Name","Test Passed", "Test Failed", "Test Skipped", "Test Other", "Event Passed",
+     "Event Failed", "Event Other", "Total"]){
       let heading_1 = document.createElement("th");
       heading_1.innerHTML = i;
       row_1.appendChild(heading_1);
@@ -88,13 +89,28 @@ async function make_table(iteration, data_type) {
         console.log(iter_data[key]);
         let row_2 = document.createElement("tr");
           let row_2_data_1 = document.createElement("td");
+          var total_value = 0;
+          console.log(total_value);
           row_2_data_1.innerHTML = key;
+          row_2_data_1.style.cursor = "pointer";
+        row_2_data_1.style.textDecoration = "underline"; 
+          (function(key) {
+            row_2_data_1.addEventListener("click", function() {
+                window.open("ui_reports/" + key +"_"+ iteration + ".html"); // Set the URL you want the link to point to
+            });
+        })(key);
+          // row_2_data_1.href = "https://www.google.com";
           row_2.appendChild(row_2_data_1);
           for (let i of ["test_passed","test_failed","test_skipped","test_other","event_passed","event_failed","event_other"]) {
               let row_2_data_2 = document.createElement("td");
               row_2_data_2.innerHTML = iter_data[key][i];
               row_2.appendChild(row_2_data_2);
+              total_value+=Number(iter_data[key][i]);
+              console.log(total_value);
           }
+          let row_2_data_2 = document.createElement("td");
+              row_2_data_2.innerHTML = total_value;
+              row_2.appendChild(row_2_data_2);
           tbody.appendChild(row_2);
       }
     }
@@ -253,7 +269,19 @@ async function plotApexPie(iteration, div_id, data_type) {
           opacity: 0.45,
         },
       },
-
+      legend: {
+        show: true,
+        showForSingleSeries: false,
+        showForNullSeries: true,
+        showForZeroSeries: true,
+        position: 'bottom',
+        horizontalAlign: 'center', 
+        floating: false,
+        labels: {
+          colors: undefined,
+          useSeriesColors: true
+      },
+    },
       responsive: [
         {
           breakpoint: 480,
@@ -289,5 +317,5 @@ window.onload = function () {
   plotApexPie("1", "#Apex_Pie_chart_UI", "test");
   plotApexPie("1", "#Apex_Pie_chart_UI2", "log");
   plotApexPie("1", "#Apex_Pie_chart", "api");
-  make_table("1");
+  make_table("1"); // Deosnt remove previous instance of self so cant put in update button
 };
