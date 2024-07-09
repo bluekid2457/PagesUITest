@@ -8,20 +8,26 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script src="myScripts.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .custom-style {
+            height: 70vh;
+            background-color: #1A1A1A
+        }
+    </style>
 </head>
-<body class="bg-gray-100 p-10">
-    <div class="bg-white shadow-lg rounded-lg p-6">
-        <h1 class="text-2xl font-bold mb-4">Dashboard</h1>
+<body class="bg-gray-100 p-10" style = "background-color: #000000">
+    <div class=" shadow-lg rounded-lg p-6 custom-style" >
+        <h1 class="text-2xl font-bold mb-4" style = "color: #CCCCCC">Dashboard</h1>
         <div class="flex">
             <div class="flex-1 flex flex-col items-center">
-                <h2 class="text-xl font-semibold mb-2">API</h2>
+                <h2 class="text-xl font-semibold mb-2" style = "color: #CCCCCC">API</h2>
                 <div id="Apex_Pie_chart" style="width: 25vw; height: 10vh;" ></div> 
             </div>
             <div class="flex-1 flex flex-col items-center">
-                <h2 class="text-xl font-semibold mb-2">UI</h2>
+                <h2 class="text-xl font-semibold mb-2" style = "color: #CCCCCC">UI</h2>
                 <div class="flex items-center space-x-4">
-                    <div  id="Apex_Pie_chart_UI" style="width: 20vw; height: 30vh;"></div>
-                    <div  id="Apex_Pie_chart_UI2" style="width: 20vw; height: 30vh;"></div>
+                    <div  id="Apex_Pie_chart_UI" style="width: 25vw; height: 30vh;"></div>
+                    <div  id="Apex_Pie_chart_UI2" style="width: 25vw; height: 30vh;"></div>
                     <div class="flex flex-col items-center">
                         <select class="border border-gray-300 rounded p-1 text-lg mb-2">
                             <option value="1">1</option>

@@ -1,3 +1,10 @@
+const total_color = "#FFFFFF";        // White
+const value_color = "#DDDDDD";        // Light Gray
+const legend_color = "#CCCCCC";       // Gray
+const slice_border_color = "#cccccc"; // Dark Gray
+const bg_color = "#1A1A1A";           // Dark Background
+const color_palette = ["#00B1F2", "#5653FE", "#7D02EB", "#A300D6", "#1FA2FF", "#12D8FA", "#0C4A6E", "#4F86F7", "#904C77", "#D81159"]; // Light to Dark Blues and
+
 async function getApiData() {
   try {
     const response = await fetch("Latest/api.json");
@@ -127,19 +134,97 @@ async function plotApexPie(iteration, div_id, data_type) {
       labels = apiData[1];
     }
     const options = {
+      legend: {
+        labels: {
+          colors: legend_color, // Set the legend text color to white
+        },
+      },
+        colors: color_palette,
       series: values,
+      stroke: {
+        show: true,
+        width: 2,
+        colors: [slice_border_color], // Set the border color for the slices
+      },
       chart: {
         width: "100%",
         height: "100%",
-        type: "pie",
+        type: "donut",
       },
       labels: labels,
+      plotOptions: {
+        pie: {
+          startAngle: 0,
+          endAngle: 360,
+          donut: {
+            labels: {
+              show: true,
+              total: {
+                show: true,
+                showAlways: false,
+                label: "Total",
+                fontSize: "22px",
+                fontFamily: "Helvetica, Arial, sans-serif",
+                fontWeight: 600,
+                color: total_color,
+                formatter: function (w) {
+                  return w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                },
+              },
+              value:{
+                color: value_color
+              }
+            },
+          },
+        },
+      },
+
+      dataLabels: {
+        enabled: true,
+        enabledOnSeries: undefined,
+        textAnchor: "middle",
+        distributed: false,
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+          fontSize: "14px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "bold",
+          colors: undefined,
+        },
+        background: {
+          enabled: true,
+          foreColor: "#fff",
+          padding: 2,
+          borderRadius: 1,
+          borderWidth: 0,
+          borderColor: "#fff",
+          opacity: 0.0,
+          dropShadow: {
+            enabled: false,
+            top: 1,
+            left: 1,
+            blur: 1,
+            color: "#000",
+            opacity: 0.9,
+          },
+        },
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 2,
+          color: "#000",
+          opacity: 0.45,
+        },
+      },
+
       responsive: [
         {
           breakpoint: 480,
           options: {
             chart: {
-              width: 500,
+              width: 200,
             },
             legend: {
               position: "bottom",
@@ -152,7 +237,8 @@ async function plotApexPie(iteration, div_id, data_type) {
     chartInstances[div_id] = new ApexCharts(chartElement, options);
     chartInstances[div_id].render();
   } catch (error) {
-    console.error("Error rendering chart:", error);s
+    console.error("Error rendering chart:", error);
+    s;
   }
 }
 const chartInstances = {};
@@ -164,8 +250,8 @@ document.addEventListener("DOMContentLoaded", function () {
     plotApexPie("1", "#Apex_Pie_chart", "api");
   };
 });
-window.onload = function(){
-    plotApexPie("1", "#Apex_Pie_chart_UI", "test");
-    plotApexPie("1", "#Apex_Pie_chart_UI2", "log");
-    plotApexPie("1", "#Apex_Pie_chart", "api");
-}
+window.onload = function () {
+  plotApexPie("1", "#Apex_Pie_chart_UI", "test");
+  plotApexPie("1", "#Apex_Pie_chart_UI2", "log");
+  plotApexPie("1", "#Apex_Pie_chart", "api");
+};
